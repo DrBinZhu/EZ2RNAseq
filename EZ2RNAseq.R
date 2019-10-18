@@ -199,7 +199,7 @@ ggplot(pcaData, aes(PC1, PC2, color=factor_1)) +
   library("pheatmap")  # using R script 'hclust' to test distance 
   select <- order(rowMeans(counts(dds,normalized=TRUE)),
                   decreasing=TRUE)[1:20]
-  df <- as.data.frame(colData(dds)[,c("factor_2","factor_1")])
+  df <- as.data.frame(colData(dds)[,c("factor_1","factor_2")])
   colnames(df) <- c(factor_1,factor_2)
   pheatmap(assay(ntd)[select,], cluster_rows=TRUE, show_rownames=TRUE,
            cluster_cols=TRUE, annotation_col=df)
