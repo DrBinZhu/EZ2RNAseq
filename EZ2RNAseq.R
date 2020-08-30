@@ -91,7 +91,12 @@ colnames(df) <- c(factor_1)
 pheatmap(assay(ntd)[select,], cluster_rows=TRUE, show_rownames=TRUE,
          cluster_cols=TRUE, annotation_col=df)
 
-
+select <- order(rowMeans(counts(dds,normalized=TRUE)),
+                decreasing=TRUE)[1:nrow(cts)]
+df <- as.data.frame(colData(dds)[1])
+colnames(df) <- c(factor_1)
+pheatmap(assay(ntd)[select,], cluster_rows=TRUE, show_rownames=TRUE,
+         cluster_cols=TRUE, annotation_col=df)
 
 
 
@@ -204,7 +209,12 @@ ggplot(pcaData, aes(PC1, PC2, color=factor_1)) +
   pheatmap(assay(ntd)[select,], cluster_rows=TRUE, show_rownames=TRUE,
            cluster_cols=TRUE, annotation_col=df)
   
-  
+  select <- order(rowMeans(counts(dds,normalized=TRUE)),
+                  decreasing=TRUE)[1:nrow(cts)]
+  df <- as.data.frame(colData(dds)[,c("factor_1","factor_2")])
+  colnames(df) <- c(factor_1,factor_2)
+  pheatmap(assay(ntd)[select,], cluster_rows=TRUE, show_rownames=TRUE,
+           cluster_cols=TRUE, annotation_col=df)
   
   
   
