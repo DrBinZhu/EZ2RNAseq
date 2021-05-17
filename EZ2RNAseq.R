@@ -58,6 +58,21 @@ if (factor_number == 1) {
     write.csv(res2,file = paste(res1[i],".csv"))
     
     # volcano plot
+    lable_list = file.exists('lable.csv')
+    if (lable_list) {
+      lable_list = file.info('lable.csv')
+      lable_list = lable_list$size
+      
+      if (lable_list != 0) {
+        lable_list = as.matrix(read.csv('lable.csv', header = F))
+      } else {
+        lable_list = NA
+      }
+      
+    } else {
+      lable_list = NA
+    }
+    
     if (i != 4) {
       volvano_plot <- as.data.frame(res2@listData)
       
@@ -192,6 +207,21 @@ if (factor_number == 1) {
     write.csv(res2,file = paste(res1[i],".csv"))
     
     # volcano plot
+    lable_list = file.exists('lable.csv')
+    if (lable_list) {
+      lable_list = file.info('lable.csv')
+      lable_list = lable_list$size
+      
+      if (lable_list != 0) {
+        lable_list = as.matrix(read.csv('lable.csv', header = F))
+      } else {
+        lable_list = NA
+      }
+      
+    } else {
+      lable_list = NA
+    }
+    
     if (i != 4) {
       volvano_plot <- as.data.frame(res2@listData)
       
