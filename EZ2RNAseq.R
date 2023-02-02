@@ -7,11 +7,17 @@ if (sum(ip == "rstudioapi") == 0) {
 }
 
 if (sum(ip == "vsn") == 0) {
-  install.packages("vsn")
+  if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+  
+  BiocManager::install("vsn")
 }
 
 if (sum(ip == "DESeq2") == 0) {
-  install.packages("DESeq2")
+  if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+  
+  BiocManager::install("DESeq2")
 }
 
 if (sum(ip == "hexbin") == 0) {
