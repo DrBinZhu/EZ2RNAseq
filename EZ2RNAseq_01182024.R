@@ -126,6 +126,7 @@ if (factor_number == 1) {
     DEG_list = as.data.frame(res2); DEG_list = row.names(DEG_list)[(DEG_list$log2FoldChange>=1 | 
                                                                      DEG_list$log2FoldChange<=-1) &
                                                                      DEG_list$padj <= 0.05]
+    DEG_list = DEG_list[!is.na(DEG_list)]
     
     # volcano plot
     lable_list = file.exists(paste0(path_input,'/lable.csv'))
@@ -141,6 +142,7 @@ if (factor_number == 1) {
       
     } else {
       lable_list = DEG_list
+      lable_list = lable_list[!is.na(lable_list)]
     }
     
     
@@ -186,9 +188,10 @@ if (factor_number == 1) {
           geom_point(aes(color = color)) + 
           scale_color_manual(values=c("green" = "green", "grey" = "grey", "red" = "red")) +
           theme(legend.position = "none") +
-          geom_text_repel(aes(label = lable_name),size = 3, colour = 'black') 
+          labs(x = 'Log2 fold change', y = '-Log10 FDR') +
+          geom_text_repel(aes(label = lable_name),size = 3, colour = 'black', max.overlaps = 20) 
         
-        ggsave(paste0(col_name[i-1],"_volcano.pdf"), width=4, height=4)
+        ggsave(paste0(col_name[i-1],"_volcano.pdf"), width=8, height=8)
         
         x_limit_neg <- min(quantile(volcano_plot$log2FoldChange,.01, na.rm =T),-2)
         x_limit_pos <- max(quantile(volcano_plot$log2FoldChange,.99, na.rm =T),2)
@@ -197,14 +200,6 @@ if (factor_number == 1) {
         
         y_limit_pos <- max(quantile(volcano_plot$padj,.99, na.rm =T),2)
         volcano_plot$padj[volcano_plot$padj > y_limit_pos] = y_limit_pos
-        
-        ggplot(data=volcano_plot, aes(x=log2FoldChange, y=padj, label=lable_name)) + 
-          geom_point(aes(color = color)) + 
-          scale_color_manual(values=c("green" = "green", "grey" = "grey", "red" = "red")) +
-          theme(legend.position = "none") +
-          geom_text_repel(aes(label = lable_name),size = 3, colour = 'black') 
-        
-        ggsave(paste0(col_name[i-1],"_volcano_2.pdf"), width=4, height=4)
       }
       
 
@@ -227,13 +222,13 @@ if (factor_number == 1) {
   
   if (length(DEG_list) >=5) {
     data = assay(ntd); data = data[row.names(data) %in% DEG_list,]
-    pdf("pheatmap_1.pdf", width=6, height=6)
+    pdf("pheatmap_1.pdf", width=5, height=15)
     print(pheatmap(data, cluster_rows=TRUE, show_rownames=TRUE,
                    cluster_cols=TRUE, annotation_col=df))
     
     dev.off()
   } else {
-    pdf("pheatmap_1.pdf", width=6, height=6)
+    pdf("pheatmap_1.pdf", width=5, height=15)
     print(pheatmap(assay(ntd)[select,], cluster_rows=TRUE, show_rownames=TRUE,
                    cluster_cols=TRUE, annotation_col=df))
     
